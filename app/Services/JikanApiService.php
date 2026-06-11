@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-class JikanApiService
+use App\Contracts\AnimeSearchContract;
+
+class JikanApiService implements AnimeSearchContract
 {
     /**
      * The base URL for the Jikan API.
@@ -62,8 +64,16 @@ class JikanApiService
     /**
      * Search for anime.
      */
-    public function searchAnime(array $params): array
+    public function searchAnime(?string $keyword = null, ?string $genre = null, int $page = 1): array
     {
+        $params = ['page' => $page];
+        if ($keyword) {
+            $params['q'] = $keyword;
+        }
+        if ($genre) {
+            $params['genres'] = $genre;
+        }
+
         return $this->fetch('anime', $params);
     }
 

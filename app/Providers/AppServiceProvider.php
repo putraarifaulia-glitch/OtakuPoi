@@ -14,7 +14,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            \App\Contracts\AuthContract::class,
+            \App\Services\AuthService::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\AnimeSearchContract::class,
+            \App\Services\JikanApiService::class
+        );
+
+        $this->app->bind(
+            \App\Contracts\UserAnimeListContract::class,
+            \App\Services\UserAnimeListService::class
+        );
     }
 
     /**

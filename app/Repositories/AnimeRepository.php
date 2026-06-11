@@ -17,10 +17,7 @@ class AnimeRepository
 
     public function search(string $query, int $page = 1)
     {
-        return $this->jikanService->searchAnime([
-            'q' => $query,
-            'page' => $page
-        ]);
+        return $this->jikanService->searchAnime($query, null, $page);
     }
 
     public function findById(int $id)
