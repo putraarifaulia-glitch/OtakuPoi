@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\MangaRepository;
-use App\Services\TranslationService;
 use Illuminate\Http\Request;
 
 class MangaController extends Controller
 {
     public function __construct(
-        protected MangaRepository $mangaRepository,
-        protected TranslationService $translationService
+        protected MangaRepository $mangaRepository
     ) {}
 
     public function index(Request $request)
@@ -36,11 +34,6 @@ class MangaController extends Controller
     {
         $response = $this->mangaRepository->findById($id);
         $manga = $response['data'] ?? abort(404);
-        
-        // Translate synopsis
-        if (isset($manga['synopsis'])) {
-            $manga['synopsis'] = $this->translationService->translate($manga['synopsis']);
-        }
         
         return view('pages.manga.show', [
             'manga' => $manga

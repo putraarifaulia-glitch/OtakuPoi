@@ -30,14 +30,33 @@
             @endforelse
         </div>
 
-        <!-- Simple Pagination -->
-        @if(isset($pagination['has_next_page']) && $pagination['has_next_page'])
-            <div class="flex justify-center py-8">
-                <a href="{{ url()->current() }}?q={{ $query }}&page={{ ($pagination['current_page'] ?? 1) + 1 }}" 
-                    class="px-8 py-3 rounded-full bg-deep-purple text-white font-bold hover:bg-purple-800 transition-all">
-                    Load More
-                </a>
-            </div>
+        <!-- Improved Pagination -->
+        @if(isset($pagination['last_visible_page']) && $pagination['last_visible_page'] > 1)
+            <nav class="flex justify-center items-center gap-2 py-12">
+                @php
+                    $currentPage = $pagination['current_page'] ?? 1;
+                    $lastPage = $pagination['last_visible_page'];
+                    $start = max(1, $currentPage - 2);
+                    $end = min($lastPage, $currentPage + 2);
+                @endphp
+
+                @if($currentPage > 1)
+                    <a href="{{ url()->current() }}?{{ http_build_query(request()->except('page')) }}&page={{ $currentPage - 1 }}" 
+                        class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-700">Prev</a>
+                @endif
+
+                @for($i = $start; $i <= $end; $i++)
+                    <a href="{{ url()->current() }}?{{ http_build_query(request()->except('page')) }}&page={{ $i }}" 
+                        class="px-4 py-2 rounded {{ $i == $currentPage ? 'bg-deep-purple text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                        {{ $i }}
+                    </a>
+                @endfor
+
+                @if($currentPage < $lastPage)
+                    <a href="{{ url()->current() }}?{{ http_build_query(request()->except('page')) }}&page={{ $currentPage + 1 }}" 
+                        class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-700">Next</a>
+                @endif
+            </nav>
         @endif
     </main>
 @endsection

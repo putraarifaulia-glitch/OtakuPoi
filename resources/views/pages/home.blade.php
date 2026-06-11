@@ -1,69 +1,110 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - OtakuPoi')
+@section('title', 'OtakuPoi - Anime & Manga Hub')
 
 @section('content')
-    <main class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            
-            <!-- Main Content (Left) -->
-            <div class="lg:col-span-3 space-y-12">
+    <div class="bg-gray-50 min-h-screen py-8">
+        <main class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 
-                <!-- Welcome Banner -->
-                <section class="bg-gradient-to-r from-deep-purple to-purple-600 rounded-2xl p-8 text-white shadow-lg">
-                    <h2 class="text-3xl font-bold mb-2">Welcome back, {{ auth()->user()->name ?? 'Otaku' }}!</h2>
-                    <p class="text-purple-100">Check out what's trending this season.</p>
-                </section>
-
-                <!-- Top Anime -->
-                <section>
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900">Recommended Anime</h3>
-                        <a href="{{ url('/anime') }}" class="text-deep-purple text-sm font-semibold hover:underline">See More</a>
-                    </div>
-                    <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide">
-                        @foreach($topAnime as $anime)
-                            <x-anime-card :item="$anime" type="anime" />
-                        @endforeach
-                    </div>
-                </section>
-
-                <!-- Top Manga -->
-                <section>
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900">Popular Manga</h3>
-                        <a href="{{ url('/manga') }}" class="text-deep-purple text-sm font-semibold hover:underline">See More</a>
-                    </div>
-                    <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide">
-                        @foreach($topManga as $manga)
-                            <x-anime-card :item="$manga" type="manga" />
-                        @endforeach
-                    </div>
-                </section>
-
-            </div>
-
-            <!-- Sidebar (Right) -->
-            <div class="lg:col-span-1 space-y-8">
-                
-                <!-- Top Airing -->
-                <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold mb-6">Top Airing</h3>
-                    <div class="space-y-4">
-                        @foreach($topAiring as $index => $anime)
-                            <div class="flex items-center gap-4">
-                                <span class="text-2xl font-bold text-purple-200 w-6">#{{ $index + 1 }}</span>
-                                <img src="{{ $anime['image_url'] ?? '' }}" alt="" class="w-12 h-16 object-cover rounded shadow-sm">
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-bold truncate">{{ $anime['title'] }}</p>
-                                    <p class="text-xs text-gray-500">{{ $anime['score'] ?? 'N/A' }} ⭐</p>
+                <!-- Kolom Utama (70%) -->
+                <div class="lg:col-span-9 space-y-12">
+                    
+                    <!-- Seasonal Anime (Data-Rich) -->
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 border-l-4 border-deep-purple pl-4 mb-6">Currently Airing (Seasonal)</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                            @foreach(collect($seasonalAnime)->take(10) as $anime)
+                                @php
+                                    $item = [
+                                        'title' => $anime['title'],
+                                        'images' => ['jpg' => ['image_url' => $anime['images']['jpg']['image_url']]],
+                                        'score' => $anime['score'] ?? 'N/A'
+                                    ];
+                                @endphp
+                                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+                                    <div class="relative aspect-[2/3]">
+                                        <img src="{{ $item['images']['jpg']['image_url'] }}" alt="{{ $item['title'] }}" class="w-full h-full object-cover">
+                                        <div class="absolute top-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">⭐ {{ $item['score'] }}</div>
+                                    </div>
+                                    <div class="p-3">
+                                        <h4 class="font-bold text-sm truncate">{{ $item['title'] }}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </section>
+                            @endforeach
+                        </div>
+                    </section>
 
+                    <!-- Most Popular Manga -->
+                    <section>
+                        <h2 class="text-2xl font-bold text-gray-900 border-l-4 border-deep-purple pl-4 mb-6">Popular Manga</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                            @foreach(collect($topManga)->take(10) as $manga)
+                                <x-anime-card :item="$manga" type="manga" />
+                            @endforeach
+                        </div>
+                    </section>
+
+                    <!-- Latest Episodes & Recent News -->
+                    <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-deep-purple pl-4 mb-4">Latest Episodes</h2>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 divide-y">
+                                @foreach(collect($latestEpisodes)->take(6) as $episode)
+                                    <div class="py-3 flex justify-between items-center text-sm">
+                                        <p class="font-bold truncate w-2/3">{{ $episode['entry']['title'] }}</p>
+                                        <span class="text-gray-400">{{ $episode['episodes'][0]['title'] }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-900 border-l-4 border-deep-purple pl-4 mb-4">Latest News</h2>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                                <p class="text-sm text-gray-500 italic">News updates regarding major studio announcements...</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Sidebar (30%) -->
+                <aside class="lg:col-span-3 space-y-8">
+                    
+                    <!-- Top Rankings Widget -->
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Top Airing</h3>
+                        <div class="space-y-4 text-sm">
+                            @foreach(collect($topAiring)->take(8) as $index => $anime)
+                                <div class="flex items-center gap-3">
+                                    <span class="font-bold text-gray-400">#{{ $index + 1 }}</span>
+                                    <p class="truncate">{{ $anime['title'] }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Characters Widget -->
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Top Characters</h3>
+                        <div class="space-y-4 text-sm">
+                            <p class="flex items-center gap-3"><span>1.</span> Eren Yeager</p>
+                            <p class="flex items-center gap-3"><span>2.</span> Gojo Satoru</p>
+                            <p class="flex items-center gap-3"><span>3.</span> Frieren</p>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Widget -->
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">OtakuPoi Stats</h3>
+                        <div class="text-sm space-y-2">
+                            <p class="flex justify-between"><span>Total Anime:</span> <span class="font-bold">15,400</span></p>
+                            <p class="flex justify-between"><span>Total Manga:</span> <span class="font-bold">22,100</span></p>
+                            <p class="flex justify-between"><span>Total Users:</span> <span class="font-bold">85,300</span></p>
+                            <p class="flex justify-between"><span>Status:</span> <span class="font-bold text-green-500">Online</span></p>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 @endsection

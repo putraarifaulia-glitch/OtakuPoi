@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Web\GenreController;
+use App\Http\Controllers\Web\StudioController;
 use App\Http\Controllers\Web\AuthController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\AnimeController;
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 */
+
+// Language Switcher
+Route::get('/set-language/{lang}', function ($lang) {
+    if (in_array($lang, ['en', 'id', 'ja'])) {
+        session(['language' => $lang]);
+    }
+    return back();
+})->name('set-language');
 
 // Public Landing Page
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -33,10 +43,6 @@ Route::middleware(['auth'])->group(function () {
     // Feedback
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
-    
-    // Settings
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 // Anime Explorations
@@ -50,3 +56,9 @@ Route::controller(MangaController::class)->prefix('manga')->name('manga.')->grou
     Route::get('/', 'index')->name('index');
     Route::get('/{id}', 'show')->name('show');
 });
+
+// Genre
+Route::get('/genre', [GenreController::class, 'index'])->name('genre.index');
+
+// Studio
+Route::get('/studio', [StudioController::class, 'index'])->name('studio.index');

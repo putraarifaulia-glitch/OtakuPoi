@@ -11,7 +11,6 @@
         <!-- Right: Auth Buttons -->
         <div class="flex items-center space-x-3">
             @auth
-                <a href="{{ route('settings.index') }}" class="px-4 py-2 text-deep-purple hover:text-purple-800 font-medium">{{ __('messages.settings') }}</a>
                 <a href="{{ url('/home') }}" class="px-6 py-2 rounded-full bg-deep-purple text-white font-medium hover:bg-purple-800 transition-colors duration-300">
                     {{ __('messages.dashboard') }}
                 </a>
@@ -36,10 +35,11 @@
 <nav class="bg-deep-purple w-full">
     <div class="container mx-auto px-4">
         <ul class="flex flex-wrap justify-center lg:justify-start space-x-6 py-3">
+            <li><a href="{{ url('/') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">Home</a></li>
             <li><a href="{{ url('/anime') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.anime') }}</a></li>
             <li><a href="{{ url('/manga') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.manga') }}</a></li>
-            <li><a href="#" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.community') }}</a></li>
-            <li><a href="#" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.industry') }}</a></li>
+            <li><a href="{{ route('genre.index') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.genre') }}</a></li>
+            <li><a href="{{ route('studio.index') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.studio') }}</a></li>
             <li><a href="{{ url('/feedback') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.feedback') }}</a></li>
         </ul>
     </div>
