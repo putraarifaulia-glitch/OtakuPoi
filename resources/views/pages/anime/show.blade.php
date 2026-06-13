@@ -30,9 +30,44 @@
                 </div>
 
                 @auth
-                    <button class="w-full py-4 rounded-xl bg-deep-purple text-white font-bold shadow-lg hover:bg-purple-800 transition-all transform hover:scale-105">
-                        Add to List
-                    </button>
+                    <!-- Fitur Add to List dengan Alpine.js -->
+                    <div x-data="{ open: false, selectedStatus: '{{ $userListEntry->status ?? '' }}' }" class="relative w-full">
+                        <button @click="open = !open" 
+                                type="button"
+                                class="w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg transition-all transform hover:scale-105 {{ $userListEntry ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-deep-purple hover:bg-purple-800 text-white' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span>{{ $userListEntry ? $userListEntry->status : 'Tambah ke List' }}</span>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                             @click.away="open = false"
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             class="absolute z-50 mt-2 w-full rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 overflow-hidden border border-purple-100">
+                            
+                            <form id="animeListForm" action="{{ route('anime-list.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="anime_id" value="{{ $anime['mal_id'] }}">
+                                <input type="hidden" name="title" value="{{ $anime['title'] }}">
+                                <input type="hidden" name="image_url" value="{{ $anime['images']['jpg']['image_url'] }}">
+                                <input type="hidden" name="status" x-model="selectedStatus">
+
+                                <div class="flex flex-col">
+                                    @foreach(['Watching', 'Completed', 'On Hold', 'Dropped', 'Plan to Watch'] as $status)
+                                        <button type="button" 
+                                                @click="selectedStatus = '{{ $status }}'; $nextTick(() => $el.closest('form').submit())"
+                                                class="w-full text-left px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-purple-50 hover:text-deep-purple transition-colors duration-200 border-b border-gray-50 last:border-0">
+                                            {{ $status }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 @endauth
             </div>
 

@@ -8,11 +8,6 @@
                 ⭐ {{ $item['score'] }}
             </div>
         @endif
-        @if(isset($item['rank']))
-             <div class="absolute top-2 left-2 bg-deep-purple px-2 py-1 rounded text-white text-xs font-bold">
-                #{{ $item['rank'] }}
-            </div>
-        @endif
     </div>
     <a href="{{ url($type . '/' . ($item['mal_id'] ?? 1)) }}" class="mt-2 text-gray-800 font-medium text-sm truncate block hover:text-deep-purple transition-colors">
         {{ $item['title'] }}

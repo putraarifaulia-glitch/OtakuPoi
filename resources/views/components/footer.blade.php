@@ -45,7 +45,8 @@
     </div>
 
     <!-- Bottom Footer Row -->
-    <div class="container mx-auto px-4 py-4 border-t border-purple-700">
+    <div class="container mx-auto px-4 py-6 border-t border-purple-700 flex flex-col items-center">
+        <img src="{{ asset('assets/image/logoOtakuPoi.png') }}" alt="OtakuPoi Logo" class="w-24 h-24 mb-4 object-contain">
         <p class="text-center text-purple-200 text-sm">
             OtakuPoi.com is a property of Kelompok 02, TI. ©2026 All Rights Reserved.
         </p>

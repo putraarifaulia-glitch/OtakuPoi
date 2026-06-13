@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\AnimeListController;
 use App\Http\Controllers\Web\GenreController;
 use App\Http\Controllers\Web\StudioController;
 use App\Http\Controllers\Web\AuthController;
@@ -43,6 +44,12 @@ Route::middleware(['auth'])->group(function () {
     // Feedback
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+
+    // Anime List
+    Route::get('/my-list', [AnimeListController::class, 'index'])->name('anime-list.index');
+    Route::post('/anime-list', [AnimeListController::class, 'store'])->name('anime-list.store');
+    Route::put('/anime-list/{id}', [AnimeListController::class, 'update'])->name('anime-list.update');
+    Route::delete('/anime-list/{id}', [AnimeListController::class, 'destroy'])->name('anime-list.destroy');
 });
 
 // Anime Explorations
@@ -59,6 +66,7 @@ Route::controller(MangaController::class)->prefix('manga')->name('manga.')->grou
 
 // Genre
 Route::get('/genre', [GenreController::class, 'index'])->name('genre.index');
+Route::get('/genre/{id}', [AnimeController::class, 'byGenre'])->name('genre.show');
 
 // Studio
 Route::get('/studio', [StudioController::class, 'index'])->name('studio.index');

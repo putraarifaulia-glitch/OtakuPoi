@@ -15,34 +15,38 @@ class AnimeController extends Controller
     public function index(Request $request)
     {
         $query = $request->query('q');
-        $genre = $request->query('genre');
         $page = $request->query('page', 1);
 
-        if ($query || $genre) {
-            $response = $this->animeRepository->search($query, $genre, $page);
-        } else {
-            $response = $this->animeRepository->getTop($page);
-        }
+        $response = $query 
+            ? $this->animeRepository->search($query, null, $page, 'score', 'desc', 25)
+            : $this->animeRepository->getTop($page, null, 25);
+
+        $animes = collect($response['data'] ?? [])
+            ->unique('mal_id')
+            ->filter(fn($item) => !isset($item['status']) || !str_contains(strtolower($item['status']), 'upcoming'))
+            ->values();
 
         return view('pages.anime.index', [
-            'animes' => $response['data'] ?? [],
+            'animes' => $animes,
             'pagination' => $response['pagination'] ?? [],
-            'query' => $query,
-            'genre' => $genre
+            'query' => $query
         ]);
     }
 
-    public function show($id)
+    public function byGenre($id)
     {
-        $response = $this->animeRepository->findById($id);
-        $anime = $response['data'] ?? abort(404);
+        $page = request()->query('page', 1);
+        $response = $this->animeRepository->search(null, $id, $page, 'start_date', 'desc', 25);
         
-        $charResponse = $this->animeRepository->getCharacters($id);
-        $characters = $charResponse['data'] ?? [];
-        
-        return view('pages.anime.show', [
-            'anime' => $anime,
-            'characters' => $characters
+        $animes = collect($response['data'] ?? [])
+            ->unique('mal_id')
+            ->filter(fn($item) => !isset($item['status']) || !str_contains(strtolower($item['status']), 'upcoming'))
+            ->values();
+
+        return view('pages.anime.genre', [
+            'animes' => $animes,
+            'pagination' => $response['pagination'] ?? [],
+            'genreId' => $id
         ]);
     }
 }

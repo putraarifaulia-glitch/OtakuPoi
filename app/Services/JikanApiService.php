@@ -41,7 +41,7 @@ class JikanApiService implements AnimeSearchContract
 
                 if ($response->status() === 429) {
                     Log::warning("Jikan API Rate Limited", ['endpoint' => $endpoint]);
-                    throw new Exception("Rate limit exceeded. Please try again later.", 429);
+                    throw new \Exception("Rate limit exceeded. Please try again later.", 429);
                 }
 
                 if ($response->failed()) {
@@ -50,12 +50,12 @@ class JikanApiService implements AnimeSearchContract
                         'status' => $response->status(),
                         'body' => $response->body()
                     ]);
-                    throw new Exception("Failed to fetch data from Jikan API.", $response->status());
+                    throw new \Exception("Failed to fetch data from Jikan API.", $response->status());
                 }
 
                 return $response->json();
             });
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::error("JikanApiService Exception: " . $e->getMessage());
             throw $e;
         }
@@ -64,9 +64,15 @@ class JikanApiService implements AnimeSearchContract
     /**
      * Search for anime.
      */
-    public function searchAnime(?string $keyword = null, ?string $genre = null, int $page = 1): array
+    public function searchAnime(?string $keyword = null, ?string $genre = null, int $page = 1, string $orderBy = 'score', string $sort = 'desc', int $limit = 25): array
     {
-        $params = ['page' => $page];
+        $params = [
+            'page' => $page,
+            'limit' => $limit,
+            'order_by' => $orderBy,
+            'sort' => $sort,
+            'sfw' => true // Memblokir konten NSFW/Hentai
+        ];
         if ($keyword) {
             $params['q'] = $keyword;
         }
@@ -80,9 +86,29 @@ class JikanApiService implements AnimeSearchContract
     /**
      * Get top anime.
      */
-    public function getTopAnime(int $page = 1): array
+    public function getTopAnime(int $page = 1, ?string $filter = null, int $limit = 25): array
     {
-        return $this->fetch('top/anime', ['page' => $page]);
+        $params = ['page' => $page, 'limit' => $limit];
+        if ($filter) {
+            $params['filter'] = $filter;
+        }
+        return $this->fetch('top/anime', $params);
+    }
+
+    /**
+     * Get upcoming anime.
+     */
+    public function getUpcomingAnime(int $page = 1, int $limit = 25): array
+    {
+        return $this->fetch('top/anime', ['page' => $page, 'filter' => 'upcoming', 'limit' => $limit]);
+    }
+
+    /**
+     * Get top characters.
+     */
+    public function getTopCharacters(int $page = 1, int $limit = 25): array
+    {
+        return $this->fetch('top/characters', ['page' => $page, 'limit' => $limit]);
     }
 
     /**

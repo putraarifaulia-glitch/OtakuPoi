@@ -12,7 +12,7 @@
             ['id' => 7, 'name' => 'Mystery'], ['id' => 22, 'name' => 'Romance'], ['id' => 24, 'name' => 'Sci-Fi'], 
             ['id' => 36, 'name' => 'Slice of Life'], ['id' => 30, 'name' => 'Sports'], ['id' => 37, 'name' => 'Supernatural']
         ] as $genre)
-            <a href="{{ route('anime.index', ['genre' => $genre['id']]) }}" class="bg-gray-100 p-4 rounded-lg text-center hover:bg-deep-purple hover:text-white transition">
+            <a href="{{ route('genre.show', $genre['id']) }}" class="bg-gray-100 p-4 rounded-lg text-center hover:bg-deep-purple hover:text-white transition">
                 {{ $genre['name'] }}
             </a>
         @endforeach

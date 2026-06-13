@@ -19,7 +19,10 @@ class MangaRepository
     {
         return $this->jikanService->searchManga([
             'q' => $query,
-            'page' => $page
+            'page' => $page,
+            'order_by' => 'score',
+            'sort' => 'desc',
+            'sfw' => true // Memblokir konten NSFW/Hentai
         ]);
     }
 

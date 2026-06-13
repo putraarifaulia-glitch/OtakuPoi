@@ -2,9 +2,7 @@
     <div class="container mx-auto px-4 flex justify-between items-center py-4">
         <!-- Left: Logo & Branding -->
         <a href="{{ url('/') }}" class="flex items-center">
-            <svg class="w-10 h-10 mr-3 text-deep-purple" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
+            <img src="{{ asset('assets/image/logoOtakuPoi.png') }}" alt="OtakuPoi Logo" class="w-16 h-16 mr-3 object-contain">
             <h1 class="text-2xl font-bold text-deep-purple">OtakuPoi</h1>
         </a>
         
@@ -36,6 +34,9 @@
     <div class="container mx-auto px-4">
         <ul class="flex flex-wrap justify-center lg:justify-start space-x-6 py-3">
             <li><a href="{{ url('/') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">Home</a></li>
+            @auth
+                <li><a href="{{ route('anime-list.index') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">My List</a></li>
+            @endauth
             <li><a href="{{ url('/anime') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.anime') }}</a></li>
             <li><a href="{{ url('/manga') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.manga') }}</a></li>
             <li><a href="{{ route('genre.index') }}" class="text-white hover:text-purple-200 transition-colors duration-300 font-medium">{{ __('messages.genre') }}</a></li>

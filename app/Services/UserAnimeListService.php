@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\UserAnimeListContract;
+use App\Models\AnimeList;
+use Illuminate\Support\Facades\Auth;
 
 class UserAnimeListService implements UserAnimeListContract
 {
@@ -11,8 +13,7 @@ class UserAnimeListService implements UserAnimeListContract
      */
     public function getUserList(int $userId): array
     {
-        // TODO: Implement database logic
-        return [];
+        return AnimeList::where('user_id', $userId)->get()->toArray();
     }
 
     /**
@@ -20,11 +21,20 @@ class UserAnimeListService implements UserAnimeListContract
      */
     public function addToList(int $userId, array $animeData): array
     {
-        // TODO: Implement database logic
+        $animeList = AnimeList::updateOrCreate(
+            ['user_id' => $userId, 'anime_id' => $animeData['anime_id']],
+            [
+                'title' => $animeData['title'],
+                'image_url' => $animeData['image_url'],
+                'status' => $animeData['status'] ?? 'Plan to Watch',
+                'translations' => $animeData['translations'] ?? null,
+            ]
+        );
+
         return [
             'success' => true,
-            'message' => 'Anime added to list',
-            'data' => $animeData
+            'message' => 'Anime successfully added to your list.',
+            'data' => $animeList->toArray()
         ];
     }
 
@@ -33,10 +43,17 @@ class UserAnimeListService implements UserAnimeListContract
      */
     public function updateProgress(int $listId, string $status, ?int $progressEpisode = null): array
     {
-        // TODO: Implement database logic
+        $animeList = AnimeList::findOrFail($listId);
+        $animeList->status = $status;
+        if ($progressEpisode !== null) {
+            $animeList->progress_episode = $progressEpisode;
+        }
+        $animeList->save();
+
         return [
             'success' => true,
-            'message' => 'Progress updated'
+            'message' => 'Your progress has been updated.',
+            'data' => $animeList->toArray()
         ];
     }
 
@@ -45,7 +62,7 @@ class UserAnimeListService implements UserAnimeListContract
      */
     public function removeFromList(int $listId): bool
     {
-        // TODO: Implement database logic
-        return true;
+        $animeList = AnimeList::findOrFail($listId);
+        return $animeList->delete();
     }
 }
