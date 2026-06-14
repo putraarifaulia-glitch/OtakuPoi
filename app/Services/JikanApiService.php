@@ -126,6 +126,14 @@ class JikanApiService implements AnimeSearchContract
     }
 
     /**
+     * Get manga by ID.
+     */
+    public function getMangaById(int $id): array
+    {
+        return $this->fetch("manga/{$id}/full");
+    }
+
+    /**
      * Search for manga.
      */
     public function searchManga(array $params): array
