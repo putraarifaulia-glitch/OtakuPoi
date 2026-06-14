@@ -4,10 +4,10 @@
 
 @section('content')
 <main class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-3xl shadow-xl">
+    <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-3xl shadow-sm border border-gray-100">
         <div>
             <div class="flex justify-center">
-                <svg class="w-16 h-16 text-deep-purple" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-16 h-16 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
             </div>
@@ -16,7 +16,7 @@
             </h2>
             <p class="mt-2 text-center text-sm text-gray-600">
                 Or
-                <a href="{{ route('register') }}" class="font-medium text-deep-purple hover:text-purple-500">
+                <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-purple-500">
                     create a new account
                 </a>
             </p>
@@ -45,34 +45,34 @@
                 <div>
                     <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
                     <input id="email-address" name="email" type="email" autocomplete="email" required 
-                        class="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-deep-purple focus:border-deep-purple focus:z-10 sm:text-sm" 
+                        class="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-600 focus:border-indigo-600 focus:z-10 sm:text-sm" 
                         placeholder="Email address">
                 </div>
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input id="password" name="password" type="password" autocomplete="current-password" required 
-                        class="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-deep-purple focus:border-deep-purple focus:z-10 sm:text-sm" 
+                        class="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-600 focus:border-indigo-600 focus:z-10 sm:text-sm" 
                         placeholder="Password">
                 </div>
             </div>
 
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
-                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-deep-purple focus:ring-purple-500 border-gray-300 rounded">
+                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-purple-500 border-gray-300 rounded">
                     <label for="remember-me" class="ml-2 block text-sm text-gray-900">
                         Remember me
                     </label>
                 </div>
 
                 <div class="text-sm">
-                    <a href="#" class="font-medium text-deep-purple hover:text-purple-500">
+                    <a href="#" class="font-medium text-indigo-600 hover:text-purple-500">
                         Forgot your password?
                     </a>
                 </div>
             </div>
 
             <div>
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-deep-purple hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-purple transition-all transform hover:scale-105">
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-indigo-600 hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-all transform hover:scale-105">
                     Sign in
                 </button>
             </div>

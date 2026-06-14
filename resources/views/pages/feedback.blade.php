@@ -19,9 +19,9 @@
                 </div>
             @endif
 
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden grid grid-cols-1 md:grid-cols-2">
                 <!-- Contact Info -->
-                <div class="bg-deep-purple p-12 text-white">
+                <div class="bg-indigo-600 p-12 text-white">
                     <h3 class="text-2xl font-bold mb-8">Contact Information</h3>
                     <div class="space-y-6">
                         <div class="flex items-center gap-4">
@@ -50,15 +50,15 @@
                         @csrf
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
-                            <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-deep-purple focus:ring-0 transition-all" placeholder="John Doe">
+                            <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-600 focus:ring-0 transition-all" placeholder="John Doe">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-deep-purple focus:ring-0 transition-all" placeholder="john@example.com">
+                            <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-600 focus:ring-0 transition-all" placeholder="john@example.com">
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Subject</label>
-                            <select name="subject" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-deep-purple focus:ring-0 transition-all">
+                            <select name="subject" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-600 focus:ring-0 transition-all">
                                 <option>General Inquiry</option>
                                 <option>Bug Report</option>
                                 <option>Feature Request</option>
@@ -67,9 +67,9 @@
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                            <textarea name="message" rows="4" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-deep-purple focus:ring-0 transition-all" placeholder="Tell us what's on your mind..."></textarea>
+                            <textarea name="message" rows="4" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-600 focus:ring-0 transition-all" placeholder="Tell us what's on your mind..."></textarea>
                         </div>
-                        <button type="submit" class="w-full py-4 rounded-xl bg-deep-purple text-white font-bold shadow-lg hover:bg-purple-800 transition-all">
+                        <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold shadow-lg hover:bg-purple-800 transition-all">
                             Send Message
                         </button>
                     </form>

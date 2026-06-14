@@ -10,7 +10,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'deep-purple': '#6B21A8',
+                        'indigo-600': '#6B21A8',
                         'dark-charcoal': '#1E1E1E',
                     }
                 }
@@ -30,7 +30,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('styles')
 </head>
-<body class="bg-gradient-to-b from-purple-500 via-white to-purple-500 font-sans antialiased min-h-screen">
+<body class="bg-gray-50 font-sans antialiased min-h-screen text-gray-900">
     <x-navbar />
 
     @yield('content')

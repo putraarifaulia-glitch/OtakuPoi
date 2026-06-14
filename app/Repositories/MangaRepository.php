@@ -10,19 +10,20 @@ class MangaRepository
     {
     }
 
-    public function getTop(int $page = 1)
+    public function getTop(int $page = 1, int $limit = 25)
     {
-        return $this->jikanService->getTopManga($page);
+        return $this->jikanService->getTopManga($page, $limit);
     }
 
-    public function search(string $query, int $page = 1)
+    public function searchByGenre(int $genreId, int $page = 1, int $limit = 25)
     {
         return $this->jikanService->searchManga([
-            'q' => $query,
+            'genres' => $genreId,
             'page' => $page,
+            'limit' => $limit,
             'order_by' => 'score',
             'sort' => 'desc',
-            'sfw' => true // Memblokir konten NSFW/Hentai
+            'sfw' => true
         ]);
     }
 

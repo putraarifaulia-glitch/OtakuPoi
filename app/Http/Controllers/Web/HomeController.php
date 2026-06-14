@@ -72,6 +72,8 @@ class HomeController extends Controller
             ->take(12)
             ->values();
 
+        $latestNews = \App\Models\News::latest()->take(5)->get();
+
         return view('pages.home', [
             'topManga' => $topManga,
             'seasonalAnime' => $seasonalAnime,
@@ -79,11 +81,24 @@ class HomeController extends Controller
             'topAiringAnimes' => $topAiringAnimes,
             'topCharacters' => $topCharacters,
             'upcomingAnimes' => $upcomingAnimes,
+            'latestNews' => $latestNews,
         ]);
     }
 
     public function index()
     {
         return $this->welcome();
+    }
+
+    public function news()
+    {
+        $news = \App\Models\News::latest()->get();
+        return view('pages.news.index', compact('news'));
+    }
+
+    public function showNews($slug)
+    {
+        $news = \App\Models\News::where('slug', $slug)->firstOrFail();
+        return view('pages.news.show', compact('news'));
     }
 }

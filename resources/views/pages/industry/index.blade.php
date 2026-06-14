@@ -13,7 +13,7 @@
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Industry News Article #{{ $i }}</h3>
                     <p class="text-gray-600 mb-4">Stay updated with the latest trends, studio announcements, and industry news in the world of anime and manga.</p>
-                    <a href="#" class="text-deep-purple font-semibold hover:underline">Read More</a>
+                    <a href="#" class="text-indigo-600 font-semibold hover:underline">Read More</a>
                 </div>
             </div>
         @endfor

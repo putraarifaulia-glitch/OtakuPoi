@@ -8,12 +8,12 @@
             
             <!-- Left: Poster & Basic Info -->
             <div class="md:col-span-1 space-y-6">
-                <img src="{{ $anime['images']['jpg']['large_image_url'] ?? '' }}" alt="{{ $anime['title'] }}" class="w-full rounded-2xl shadow-2xl">
+                <img src="{{ $anime['images']['jpg']['large_image_url'] ?? '' }}" alt="{{ $anime['title'] }}" class="w-full rounded-2xl shadow-md">
                 
                 <div class="bg-gray-50 p-6 rounded-2xl space-y-4">
                     <div>
                         <p class="text-sm text-gray-500 font-bold uppercase">Score</p>
-                        <p class="text-3xl font-bold text-deep-purple">{{ $anime['score'] ?? 'N/A' }}</p>
+                        <p class="text-3xl font-bold text-indigo-600">{{ $anime['score'] ?? 'N/A' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-bold uppercase">Rank</p>
@@ -34,7 +34,7 @@
                     <div x-data="{ open: false, selectedStatus: '{{ $userListEntry->status ?? '' }}' }" class="relative w-full">
                         <button @click="open = !open" 
                                 type="button"
-                                class="w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg transition-all transform hover:scale-105 {{ $userListEntry ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-deep-purple hover:bg-purple-800 text-white' }}">
+                                class="w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg transition-all transform hover:scale-105 {{ $userListEntry ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-indigo-600 hover:bg-purple-800 text-white' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                             </svg>
@@ -47,7 +47,7 @@
                              x-transition:enter="transition ease-out duration-100"
                              x-transition:enter-start="transform opacity-0 scale-95"
                              x-transition:enter-end="transform opacity-100 scale-100"
-                             class="absolute z-50 mt-2 w-full rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 overflow-hidden border border-purple-100">
+                             class="absolute z-50 mt-2 w-full rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden border border-purple-100">
                             
                             <form id="animeListForm" action="{{ route('anime-list.store') }}" method="POST">
                                 @csrf
@@ -60,7 +60,7 @@
                                     @foreach(['Watching', 'Completed', 'On Hold', 'Dropped', 'Plan to Watch'] as $status)
                                         <button type="button" 
                                                 @click="selectedStatus = '{{ $status }}'; $nextTick(() => $el.closest('form').submit())"
-                                                class="w-full text-left px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-purple-50 hover:text-deep-purple transition-colors duration-200 border-b border-gray-50 last:border-0">
+                                                class="w-full text-left px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-purple-50 hover:text-indigo-600 transition-colors duration-200 border-b border-gray-50 last:border-0">
                                             {{ $status }}
                                         </button>
                                     @endforeach
@@ -77,7 +77,7 @@
                     <h2 class="text-5xl font-bold text-gray-900 mb-4">{{ $anime['title'] }}</h2>
                     <div class="flex flex-wrap gap-2">
                         @foreach($anime['genres'] ?? [] as $genre)
-                            <span class="px-3 py-1 bg-purple-100 text-deep-purple rounded-full text-sm font-bold">{{ $genre['name'] }}</span>
+                            <span class="px-3 py-1 bg-purple-100 text-indigo-600 rounded-full text-sm font-bold">{{ $genre['name'] }}</span>
                         @endforeach
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <h4 class="font-bold text-gray-900 mb-3">Streaming Platforms</h4>
                         <div class="flex flex-wrap gap-2">
                             @forelse($anime['streaming'] ?? [] as $stream)
-                                <a href="{{ $stream['url'] }}" target="_blank" class="px-3 py-1 bg-gray-100 hover:bg-deep-purple hover:text-white rounded text-xs font-bold transition">
+                                <a href="{{ $stream['url'] }}" target="_blank" class="px-3 py-1 bg-gray-100 hover:bg-indigo-600 hover:text-white rounded text-xs font-bold transition">
                                     {{ $stream['name'] }}
                                 </a>
                             @empty
@@ -135,7 +135,7 @@
                                             @if(isset($jaVa['person']['images']['jpg']['image_url']))
                                                 <img src="{{ $jaVa['person']['images']['jpg']['image_url'] }}" class="w-8 h-8 rounded-full object-cover border border-gray-200">
                                             @endif
-                                            <p class="text-xs font-semibold text-deep-purple">{{ $jaVa['person']['name'] ?? '' }} (JP)</p>
+                                            <p class="text-xs font-semibold text-indigo-600">{{ $jaVa['person']['name'] ?? '' }} (JP)</p>
                                         </div>
                                     @endif
                                 </div>

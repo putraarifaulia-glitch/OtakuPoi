@@ -12,8 +12,8 @@
             <!-- Search Bar -->
             <form action="{{ url('/manga') }}" method="GET" class="relative max-w-2xl">
                 <input type="text" name="q" value="{{ $query }}" placeholder="Search for manga..." 
-                    class="w-full px-6 py-4 rounded-full bg-gray-100 border-transparent focus:bg-white focus:border-deep-purple focus:ring-0 text-lg transition-all shadow-inner">
-                <button type="submit" class="absolute right-3 top-3 px-6 py-2 rounded-full bg-deep-purple text-white font-bold hover:bg-purple-800 transition-colors">
+                    class="w-full px-6 py-4 rounded-full bg-gray-100 border-transparent focus:bg-white focus:border-indigo-600 focus:ring-0 text-lg transition-all shadow-inner">
+                <button type="submit" class="absolute right-3 top-3 px-6 py-2 rounded-full bg-indigo-600 text-white font-bold hover:bg-purple-800 transition-colors">
                     Search
                 </button>
             </form>
@@ -34,7 +34,7 @@
         @if(isset($pagination['has_next_page']) && $pagination['has_next_page'])
             <div class="flex justify-center py-8">
                 <a href="{{ url()->current() }}?q={{ $query }}&page={{ ($pagination['current_page'] ?? 1) + 1 }}" 
-                    class="px-8 py-3 rounded-full bg-deep-purple text-white font-bold hover:bg-purple-800 transition-all">
+                    class="px-8 py-3 rounded-full bg-indigo-600 text-white font-bold hover:bg-purple-800 transition-all">
                     Load More
                 </a>
             </div>

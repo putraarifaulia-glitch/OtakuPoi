@@ -12,8 +12,8 @@
             <!-- Search Bar -->
             <form action="{{ url('/anime') }}" method="GET" class="relative max-w-2xl">
                 <input type="text" name="q" value="{{ $query }}" placeholder="Search for anime..." 
-                    class="w-full px-6 py-4 rounded-full bg-gray-100 border-transparent focus:bg-white focus:border-deep-purple focus:ring-0 text-lg transition-all shadow-inner">
-                <button type="submit" class="absolute right-3 top-3 px-6 py-2 rounded-full bg-deep-purple text-white font-bold hover:bg-purple-800 transition-colors">
+                    class="w-full px-6 py-4 rounded-full bg-gray-100 border-transparent focus:bg-white focus:border-indigo-600 focus:ring-0 text-lg transition-all shadow-inner">
+                <button type="submit" class="absolute right-3 top-3 px-6 py-2 rounded-full bg-indigo-600 text-white font-bold hover:bg-purple-800 transition-colors">
                     Search
                 </button>
             </form>
@@ -47,7 +47,7 @@
 
                 @for($i = $start; $i <= $end; $i++)
                     <a href="{{ url()->current() }}?{{ http_build_query(request()->except('page')) }}&page={{ $i }}" 
-                        class="px-4 py-2 rounded {{ $i == $currentPage ? 'bg-deep-purple text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                        class="px-4 py-2 rounded {{ $i == $currentPage ? 'bg-indigo-600 text-white' : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
                         {{ $i }}
                     </a>
                 @endfor

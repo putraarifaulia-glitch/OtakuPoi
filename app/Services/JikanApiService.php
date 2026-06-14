@@ -30,34 +30,40 @@ class JikanApiService implements AnimeSearchContract
         $cacheKey = 'jikan_' . md5($endpoint . serialize($query));
 
         try {
-            return Cache::remember($cacheKey, $ttl, function () use ($endpoint, $query) {
-                // Respect Jikan rate limiting: 3 requests per second
-                // In a production environment, we might use a more sophisticated rate limiter
-                // but for now, we'll just handle the response.
-                
-                $response = Http::withHeaders([
-                    'Accept' => 'application/json',
-                ])->get("{$this->baseUrl}/{$endpoint}", $query);
+            // Check cache first
+            if (Cache::has($cacheKey)) {
+                return Cache::get($cacheKey);
+            }
 
-                if ($response->status() === 429) {
-                    Log::warning("Jikan API Rate Limited", ['endpoint' => $endpoint]);
-                    throw new \Exception("Rate limit exceeded. Please try again later.", 429);
-                }
+            // If not in cache, fetch from API
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+            ])->get("{$this->baseUrl}/{$endpoint}", $query);
 
-                if ($response->failed()) {
-                    Log::error("Jikan API Error", [
-                        'endpoint' => $endpoint,
-                        'status' => $response->status(),
-                        'body' => $response->body()
-                    ]);
-                    throw new \Exception("Failed to fetch data from Jikan API.", $response->status());
-                }
+            // Handle 404 - return empty but don't cache or cache for a short time
+            if ($response->status() === 404) {
+                return ['data' => null];
+            }
 
-                return $response->json();
-            });
+            if ($response->successful()) {
+                $data = $response->json();
+                // Only cache successful responses
+                Cache::put($cacheKey, $data, $ttl);
+                return $data;
+            }
+
+            // Handle errors (429, 500, etc) without caching
+            Log::error("Jikan API Error", [
+                'endpoint' => $endpoint,
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+
+            return ['data' => []];
+
         } catch (\Exception $e) {
             Log::error("JikanApiService Exception: " . $e->getMessage());
-            throw $e;
+            return ['data' => []];
         }
     }
 
@@ -130,16 +136,26 @@ class JikanApiService implements AnimeSearchContract
     /**
      * Get top manga.
      */
-    public function getTopManga(int $page = 1): array
+    public function getTopManga(int $page = 1, int $limit = 25): array
     {
-        return $this->fetch('top/manga', ['page' => $page]);
+        return $this->fetch('top/manga', ['page' => $page, 'limit' => $limit]);
     }
 
     /**
-     * Get manga by ID.
+     * Get list of studios.
      */
-    public function getMangaById(int $id): array
+    public function getStudios(int $page = 1, int $limit = 25): array
     {
-        return $this->fetch("manga/{$id}/full");
+        // Many Jikan endpoints for collections like studios use 'producers' in some contexts
+        // or check if 'producers' is the correct endpoint for lists of studios.
+        return $this->fetch('producers', ['page' => $page, 'limit' => $limit]);
+    }
+
+    /**
+     * Get anime by studio ID.
+     */
+    public function getAnimeByStudio(int $id, int $page = 1): array
+    {
+        return $this->fetch("anime", ['producers' => $id, 'page' => $page]);
     }
 }

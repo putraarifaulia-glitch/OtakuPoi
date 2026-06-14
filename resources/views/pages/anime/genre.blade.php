@@ -6,9 +6,9 @@
     <main class="container mx-auto px-4 py-12">
         <div class="mb-12">
             <h2 class="text-4xl font-bold text-gray-900 mb-2">
-                Browse by Genre
+                {{ $genreName }} Anime
             </h2>
-            <p class="text-gray-500">Discover the latest and most popular anime in your favorite categories.</p>
+            <p class="text-gray-500">Discover the latest and most popular anime in the {{ $genreName }} category.</p>
         </div>
 
         <!-- Grid -->
@@ -18,7 +18,7 @@
             @empty
                 <div class="col-span-full py-20 text-center bg-white rounded-3xl shadow-sm border border-purple-50">
                     <div class="w-20 h-20 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-deep-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
@@ -40,19 +40,19 @@
 
                 @if($currentPage > 1)
                     <a href="{{ url()->current() }}?page={{ $currentPage - 1 }}" 
-                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-purple-50 hover:text-deep-purple transition-all text-gray-700 shadow-sm">Prev</a>
+                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-purple-50 hover:text-indigo-600 transition-all text-gray-700 shadow-sm">Prev</a>
                 @endif
 
                 @for($i = $start; $i <= $end; $i++)
                     <a href="{{ url()->current() }}?page={{ $i }}" 
-                        class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm {{ $i == $currentPage ? 'bg-deep-purple text-white' : 'bg-white border border-gray-200 hover:bg-purple-50 hover:text-deep-purple text-gray-700' }}">
+                        class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm {{ $i == $currentPage ? 'bg-indigo-600 text-white' : 'bg-white border border-gray-200 hover:bg-purple-50 hover:text-indigo-600 text-gray-700' }}">
                         {{ $i }}
                     </a>
                 @endfor
 
                 @if($currentPage < $lastPage)
                     <a href="{{ url()->current() }}?page={{ $currentPage + 1 }}" 
-                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-purple-50 hover:text-deep-purple transition-all text-gray-700 shadow-sm">Next</a>
+                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-purple-50 hover:text-indigo-600 transition-all text-gray-700 shadow-sm">Next</a>
                 @endif
             </nav>
         @endif

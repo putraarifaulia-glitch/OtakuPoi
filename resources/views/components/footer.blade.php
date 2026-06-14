@@ -1,4 +1,4 @@
-<footer class="bg-deep-purple mt-12">
+<footer class="bg-indigo-600 mt-12">
     <!-- Upper Footer Grid -->
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -7,10 +7,10 @@
             </p>
             <div class="flex justify-end space-x-4">
                 @guest
-                    <a href="{{ route('login') }}" class="px-6 py-2 rounded-full bg-white text-deep-purple font-medium hover:bg-purple-50 transition-colors duration-300">
+                    <a href="{{ route('login') }}" class="px-6 py-2 rounded-full bg-white text-indigo-600 font-medium hover:bg-purple-50 transition-colors duration-300">
                         Log In
                     </a>
-                    <a href="{{ route('register') }}" class="px-6 py-2 rounded-full bg-transparent border-2 border-white text-white font-medium hover:bg-white hover:text-deep-purple transition-colors duration-300">
+                    <a href="{{ route('register') }}" class="px-6 py-2 rounded-full bg-transparent border-2 border-white text-white font-medium hover:bg-white hover:text-indigo-600 transition-colors duration-300">
                         Sign Up
                     </a>
                 @endguest

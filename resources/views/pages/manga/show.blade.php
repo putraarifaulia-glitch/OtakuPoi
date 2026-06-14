@@ -13,7 +13,7 @@
                 <div class="bg-gray-50 p-6 rounded-2xl space-y-4">
                     <div>
                         <p class="text-sm text-gray-500 font-bold uppercase">Score</p>
-                        <p class="text-3xl font-bold text-deep-purple">{{ $manga['score'] ?? 'N/A' }}</p>
+                        <p class="text-3xl font-bold text-indigo-600">{{ $manga['score'] ?? 'N/A' }}</p>
                     </div>
                     <div>
                         <p class="text-sm text-gray-500 font-bold uppercase">Rank</p>
@@ -30,7 +30,7 @@
                 </div>
 
                 @auth
-                    <button class="w-full py-4 rounded-xl bg-deep-purple text-white font-bold shadow-lg hover:bg-purple-800 transition-all transform hover:scale-105">
+                    <button class="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold shadow-lg hover:bg-purple-800 transition-all transform hover:scale-105">
                         Add to List
                     </button>
                 @endauth
@@ -42,7 +42,7 @@
                     <h2 class="text-5xl font-bold text-gray-900 mb-4">{{ $manga['title'] }}</h2>
                     <div class="flex flex-wrap gap-2">
                         @foreach($manga['genres'] ?? [] as $genre)
-                            <span class="px-3 py-1 bg-purple-100 text-deep-purple rounded-full text-sm font-bold">{{ $genre['name'] }}</span>
+                            <span class="px-3 py-1 bg-purple-100 text-indigo-600 rounded-full text-sm font-bold">{{ $genre['name'] }}</span>
                         @endforeach
                     </div>
                 </div>

@@ -1,15 +1,22 @@
 @props(['item', 'type' => 'anime'])
 
-<div class="relative group shrink-0 snap-start w-40">
-    <div class="relative overflow-hidden rounded-lg">
-        <img src="{{ $item['images']['jpg']['image_url'] ?? ($item['images']['webp']['image_url'] ?? 'https://via.placeholder.com/300x450?text=No+Image') }}" alt="{{ $item['title'] }}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+@php
+    $id = $item['mal_id'] ?? ($item['id'] ?? 1);
+    $title = $item['title'] ?? 'Unknown';
+    $imageUrl = $item['images']['jpg']['image_url'] ?? ($item['images']['webp']['image_url'] ?? 'https://via.placeholder.com/300x450?text=No+Image');
+    $score = $item['score'] ?? 'N/A';
+@endphp
+
+<a href="{{ url($type . '/' . $id) }}" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden group hover:shadow-xl hover:border-indigo-600/30 transition-all duration-300 flex flex-col h-full">
+    <div class="relative aspect-[2/3] overflow-hidden">
+        <img src="{{ $imageUrl }}" alt="{{ $title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
         @if(isset($item['score']))
-            <div class="absolute bottom-2 left-2 bg-black/70 px-2 py-1 rounded text-yellow-400 text-sm font-medium">
-                ⭐ {{ $item['score'] }}
+            <div class="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-sm text-white text-xs font-black px-2.5 py-1.5 rounded-lg shadow-lg border border-white/10">
+                ⭐ {{ $score }}
             </div>
         @endif
     </div>
-    <a href="{{ url($type . '/' . ($item['mal_id'] ?? 1)) }}" class="mt-2 text-gray-800 font-medium text-sm truncate block hover:text-deep-purple transition-colors">
-        {{ $item['title'] }}
-    </a>
-</div>
+    <div class="p-4 flex-grow flex flex-col justify-between bg-white">
+        <h4 class="font-extrabold text-sm text-gray-900 line-clamp-2 group-hover:text-indigo-600 transition-colors leading-tight">{{ $title }}</h4>
+    </div>
+</a>

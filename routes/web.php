@@ -27,6 +27,8 @@ Route::get('/set-language/{lang}', function ($lang) {
 
 // Public Landing Page
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
+Route::get('/news', [HomeController::class, 'news'])->name('news.index');
+Route::get('/news/{slug}', [HomeController::class, 'showNews'])->name('news.show');
 
 // Auth Routes
 Route::controller(AuthController::class)->group(function () {
@@ -52,6 +54,20 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/anime-list/{id}', [AnimeListController::class, 'destroy'])->name('anime-list.destroy');
 });
 
+// Admin Routes
+Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
+    Route::get('/news', [App\Http\Controllers\Admin\NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/create', [App\Http\Controllers\Admin\NewsController::class, 'create'])->name('news.create');
+    Route::post('/news', [App\Http\Controllers\Admin\NewsController::class, 'store'])->name('news.store');
+    Route::get('/news/{news}/edit', [App\Http\Controllers\Admin\NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{news}', [App\Http\Controllers\Admin\NewsController::class, 'update'])->name('news.update');
+    Route::delete('/news/{news}', [App\Http\Controllers\Admin\NewsController::class, 'destroy'])->name('news.destroy');
+
+    // User Management
+    Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle-admin', [App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
+});
+
 // Anime Explorations
 Route::controller(AnimeController::class)->prefix('anime')->name('anime.')->group(function () {
     Route::get('/', 'index')->name('index');
@@ -59,6 +75,7 @@ Route::controller(AnimeController::class)->prefix('anime')->name('anime.')->grou
 });
 
 // Manga Explorations
+// Manga
 Route::controller(MangaController::class)->prefix('manga')->name('manga.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/{id}', 'show')->name('show');
@@ -66,7 +83,9 @@ Route::controller(MangaController::class)->prefix('manga')->name('manga.')->grou
 
 // Genre
 Route::get('/genre', [GenreController::class, 'index'])->name('genre.index');
-Route::get('/genre/{id}', [AnimeController::class, 'byGenre'])->name('genre.show');
+Route::get('/genre/anime/{id}', [AnimeController::class, 'byGenre'])->name('genre.anime.show');
+Route::get('/genre/manga/{id}', [MangaController::class, 'byGenre'])->name('genre.manga.show');
 
 // Studio
 Route::get('/studio', [StudioController::class, 'index'])->name('studio.index');
+Route::get('/studio/{id}', [StudioController::class, 'show'])->name('studio.show');
