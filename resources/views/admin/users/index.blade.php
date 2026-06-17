@@ -3,61 +3,61 @@
 @section('title', 'Admin - User Management')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 py-12">
+<div class="min-h-screen bg-gray-50 dark:bg-dark-bg py-12 transition-colors duration-300">
     <div class="container mx-auto px-4">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
-            <p class="text-gray-500">View and manage all registered users on OtakuPoi.</p>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">User Management</h1>
+            <p class="text-gray-500 dark:text-gray-400">View and manage all registered users on OtakuPoi.</p>
         </div>
 
         @if(session('success'))
-            <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-r-xl font-medium">
+            <div class="mb-6 p-4 bg-green-50 dark:bg-emerald-900/20 border-l-4 border-green-500 text-green-700 dark:text-emerald-400 rounded-r-xl font-medium">
                 {{ session('success') }}
             </div>
         @endif
         
         @if(session('error'))
-            <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-r-xl font-medium">
+            <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-400 rounded-r-xl font-medium">
                 {{ session('error') }}
             </div>
         @endif
 
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-border overflow-hidden transition-colors">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-50 border-b border-gray-100">
-                            <th class="px-6 py-4 text-sm font-bold text-gray-600 uppercase tracking-wider">User</th>
-                            <th class="px-6 py-4 text-sm font-bold text-gray-600 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-4 text-sm font-bold text-gray-600 uppercase tracking-wider">Joined Date</th>
-                            <th class="px-6 py-4 text-sm font-bold text-gray-600 uppercase tracking-wider">Role</th>
-                            <th class="px-6 py-4 text-sm font-bold text-gray-600 uppercase tracking-wider text-right">Actions</th>
+                        <tr class="bg-gray-50 dark:bg-dark-bg/50 border-b border-gray-100 dark:border-dark-border">
+                            <th class="px-6 py-4 text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider">User</th>
+                            <th class="px-6 py-4 text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-4 text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Joined Date</th>
+                            <th class="px-6 py-4 text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                            <th class="px-6 py-4 text-sm font-bold text-gray-600 dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100 dark:divide-dark-border">
                         @foreach($users as $user)
-                        <tr class="hover:bg-gray-50/50 transition-colors">
+                        <tr class="hover:bg-gray-50/50 dark:hover:bg-dark-bg/20 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-600/10 flex items-center justify-center text-indigo-600 font-bold">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-600/10 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold">
                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                     </div>
-                                    <span class="font-bold text-gray-900">{{ $user->name }}</span>
+                                    <span class="font-bold text-gray-900 dark:text-gray-100">{{ $user->name }}</span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-gray-600">
+                            <td class="px-6 py-4 text-gray-600 dark:text-gray-400">
                                 {{ $user->email }}
                             </td>
-                            <td class="px-6 py-4 text-gray-500 text-sm">
+                            <td class="px-6 py-4 text-gray-500 dark:text-gray-500 text-sm">
                                 {{ $user->created_at->format('M d, Y') }}
                             </td>
                             <td class="px-6 py-4">
                                 @if($user->is_admin)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400">
                                         Admin
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400">
                                         Member
                                     </span>
                                 @endif
@@ -67,7 +67,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" 
-                                        class="text-sm font-bold transition-colors {{ $user->is_admin ? 'text-amber-600 hover:text-amber-700' : 'text-indigo-600 hover:text-purple-800' }}">
+                                        class="text-sm font-bold transition-colors {{ $user->is_admin ? 'text-amber-600 dark:text-amber-400 hover:text-amber-700' : 'text-indigo-600 dark:text-indigo-400 hover:text-purple-800' }}">
                                         {{ $user->is_admin ? 'Revoke Admin' : 'Make Admin' }}
                                     </button>
                                 </form>
@@ -77,7 +77,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="px-6 py-4 border-t border-gray-100">
+            <div class="px-6 py-4 border-t border-gray-100 dark:border-dark-border">
                 {{ $users->links() }}
             </div>
         </div>

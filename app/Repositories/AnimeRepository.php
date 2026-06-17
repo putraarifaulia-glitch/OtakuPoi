@@ -26,9 +26,9 @@ class AnimeRepository
         return $this->jikanService->getTopCharacters($page, $limit);
     }
 
-    public function search(?string $query, ?string $genre, int $page = 1, string $orderBy = 'score', string $sort = 'desc', int $limit = 25)
+    public function search(?string $query, ?string $genre, int $page = 1, string $orderBy = 'score', string $sort = 'desc', int $limit = 25, array $additionalParams = [])
     {
-        return $this->jikanService->searchAnime($query, $genre, $page, $orderBy, $sort, $limit);
+        return $this->jikanService->searchAnime($query, $genre, $page, $orderBy, $sort, $limit, $additionalParams);
     }
 
     public function getCharacters(int $id)

@@ -17,6 +17,12 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div class="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded-r-xl">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if($animeList->isEmpty())
             <div class="bg-white rounded-3xl p-16 text-center border border-gray-100 shadow-sm">
                 <div class="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -31,55 +37,147 @@
                 </a>
             </div>
         @else
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 @foreach($animeList as $item)
-                    <div class="flex flex-col group">
-                        <div class="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md group-hover:shadow-2xl transition-all duration-500 bg-gray-200">
-                            <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                            
-                            <!-- Minimalist Status Badge -->
-                            <div class="absolute top-3 right-3">
-                                <div class="w-3 h-3 rounded-full border-2 border-white shadow-sm
-                                    {{ $item->status == 'Watching' ? 'bg-blue-500' : '' }}
-                                    {{ $item->status == 'Completed' ? 'bg-green-500' : '' }}
-                                    {{ $item->status == 'On Hold' ? 'bg-yellow-500' : '' }}
-                                    {{ $item->status == 'Dropped' ? 'bg-red-500' : '' }}
-                                    {{ $item->status == 'Plan to Watch' ? 'bg-gray-400' : '' }}
-                                "></div>
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                        <div class="flex h-full">
+                            <!-- Image Section -->
+                            <div class="w-1/3 relative overflow-hidden">
+                                <img src="{{ $item->image_url }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute top-2 left-2">
+                                    <div class="px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest text-white shadow-lg
+                                        {{ $item->status == 'Watching' ? 'bg-blue-600' : '' }}
+                                        {{ $item->status == 'Completed' ? 'bg-green-600' : '' }}
+                                        {{ $item->status == 'On Hold' ? 'bg-amber-500' : '' }}
+                                        {{ $item->status == 'Dropped' ? 'bg-red-600' : '' }}
+                                        {{ $item->status == 'Plan to Watch' ? 'bg-gray-500' : '' }}
+                                    ">
+                                        {{ $item->status }}
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Floating Actions -->
-                            <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-black/60 backdrop-blur-sm">
+                            <!-- Content Section -->
+                            <div class="w-2/3 p-4 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="font-bold text-gray-900 text-sm line-clamp-2 leading-tight mb-2">
+                                        {{ $item->title }}
+                                    </h3>
+                                    
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                            <span>Progress</span>
+                                            <span class="text-indigo-600">{{ $item->progress_episode ?? 0 }} Eps</span>
+                                        </div>
+                                        <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                            <span>Your Score</span>
+                                            <span class="text-amber-500">
+                                                @if($item->score)
+                                                    ★ {{ $item->score }}/10
+                                                @else
+                                                    No Score
+                                                @endif
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <div class="flex gap-2">
-                                    <a href="{{ route('anime.show', $item->anime_id) }}" class="flex-1 bg-white/20 backdrop-blur-md hover:bg-white/40 text-white text-center py-2 rounded-lg text-xs font-bold transition-colors">
-                                        Details
-                                    </a>
-                                    <form action="{{ route('anime-list.destroy', $item->id) }}" method="POST" class="inline">
+                                <div class="flex gap-2 mt-4">
+                                    <button onclick="openUpdateModal({{ json_encode($item) }})" class="flex-1 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">
+                                        Update
+                                    </button>
+                                    <form action="{{ route('anime-list.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Remove from list?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Remove?')" class="p-2 bg-red-500/20 backdrop-blur-md hover:bg-red-500 text-white rounded-lg transition-colors">
+                                        <button type="submit" class="p-2 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1-1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                                             </svg>
                                         </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4 px-1">
-                            <h3 class="font-bold text-gray-900 text-sm truncate group-hover:text-indigo-600 transition-colors">
-                                {{ $item->title }}
-                            </h3>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="text-[10px] font-bold uppercase tracking-tighter {{ $item->status == 'Watching' ? 'text-blue-600' : 'text-gray-400' }}">
-                                    {{ $item->status }}
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 @endforeach
             </div>
+
+            <!-- Simple Modal for Update -->
+            <div id="updateModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+                <div class="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-gray-900">Update Progress</h2>
+                        <button onclick="closeUpdateModal()" class="text-gray-400 hover:text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="updateForm" method="POST" class="p-6 space-y-4">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Status</label>
+                            <select name="status" id="modalStatus" class="w-full bg-gray-50 border-gray-100 rounded-xl focus:ring-indigo-600 focus:border-indigo-600">
+                                <option value="Watching">Watching</option>
+                                <option value="Completed">Completed</option>
+                                <option value="On Hold">On Hold</option>
+                                <option value="Dropped">Dropped</option>
+                                <option value="Plan to Watch">Plan to Watch</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Episodes</label>
+                                <input type="number" name="progress_episode" id="modalProgress" min="0" class="w-full bg-gray-50 border-gray-100 rounded-xl focus:ring-indigo-600 focus:border-indigo-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Score (1-10)</label>
+                                <select name="score" id="modalScore" class="w-full bg-gray-50 border-gray-100 rounded-xl focus:ring-indigo-600 focus:border-indigo-600">
+                                    <option value="">No Score</option>
+                                    @for($i = 10; $i >= 1; $i--)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button type="submit" class="w-full py-3 bg-indigo-600 text-white rounded-xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                function openUpdateModal(item) {
+                    const modal = document.getElementById('updateModal');
+                    const form = document.getElementById('updateForm');
+                    
+                    form.action = `/anime-list/${item.id}`;
+                    document.getElementById('modalStatus').value = item.status;
+                    document.getElementById('modalProgress').value = item.progress_episode || 0;
+                    document.getElementById('modalScore').value = item.score || "";
+                    
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeUpdateModal() {
+                    const modal = document.getElementById('updateModal');
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                }
+
+                // Close on escape
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeUpdateModal();
+                });
+            </script>
         @endif
     </div>
 </div>

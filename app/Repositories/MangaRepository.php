@@ -10,6 +10,16 @@ class MangaRepository
     {
     }
 
+    public function search(string $keyword, int $page = 1, int $limit = 25, array $additionalParams = [])
+    {
+        return $this->jikanService->searchManga(array_merge([
+            'q' => $keyword,
+            'page' => $page,
+            'limit' => $limit,
+            'sfw' => true
+        ], $additionalParams));
+    }
+
     public function getTop(int $page = 1, int $limit = 25)
     {
         return $this->jikanService->getTopManga($page, $limit);

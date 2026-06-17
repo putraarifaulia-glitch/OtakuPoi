@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class AnimeList extends Model
 {
     protected $fillable = [
-        'user_id', 'anime_id', 'translations', 'title', 'image_url', 'status', 'progress_episode'
+        'user_id', 'anime_id', 'translations', 'title', 'image_url', 'status', 'progress_episode', 'score'
     ];
 
     protected $casts = [

@@ -70,15 +70,16 @@ class JikanApiService implements AnimeSearchContract
     /**
      * Search for anime.
      */
-    public function searchAnime(?string $keyword = null, ?string $genre = null, int $page = 1, string $orderBy = 'score', string $sort = 'desc', int $limit = 25): array
+    public function searchAnime(?string $keyword = null, ?string $genre = null, int $page = 1, string $orderBy = 'score', string $sort = 'desc', int $limit = 25, array $additionalParams = []): array
     {
-        $params = [
+        $params = array_merge([
             'page' => $page,
             'limit' => $limit,
             'order_by' => $orderBy,
             'sort' => $sort,
-            'sfw' => true // Memblokir konten NSFW/Hentai
-        ];
+            'sfw' => true
+        ], $additionalParams);
+
         if ($keyword) {
             $params['q'] = $keyword;
         }

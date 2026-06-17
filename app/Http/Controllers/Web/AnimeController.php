@@ -15,23 +15,52 @@ class AnimeController extends Controller
     public function index(Request $request)
     {
         $query = $request->query('q');
+        $genre = $request->query('genre');
+        $type = $request->query('type');
+        $status = $request->query('status');
+        $minScore = $request->query('min_score');
+        $year = $request->query('year');
         $page = $request->query('page', 1);
 
+        $additionalParams = [];
+        if ($type) $additionalParams['type'] = $type;
+        if ($status) $additionalParams['status'] = $status;
+        if ($minScore) $additionalParams['min_score'] = $minScore;
+        if ($year) {
+            $additionalParams['start_date'] = $year . '-01-01';
+            $additionalParams['end_date'] = $year . '-12-31';
+        }
+
         // Fetch slightly more to account for unique/filter, but limit to 18 for pagination consistency
-        $response = $query 
-            ? $this->animeRepository->search($query, null, $page, 'score', 'desc', 18)
+        $response = ($query || $genre || $type || $status || $minScore || $year)
+            ? $this->animeRepository->search($query, $genre, $page, 'score', 'desc', 18, $additionalParams)
             : $this->animeRepository->getTop($page, null, 18);
 
         $animes = collect($response['data'] ?? [])
             ->unique('mal_id')
-            ->filter(fn($item) => !isset($item['status']) || !str_contains(strtolower($item['status']), 'upcoming'))
+            ->filter(fn($item) => !isset($item['status']) || !str_contains(strtolower($item['status']), 'upcoming') || ($status == 'upcoming'))
             ->take(18)
             ->values();
+
+        // Fetch genres for filter
+        $genres = \Illuminate\Support\Facades\Cache::remember('anime_genres_list', 86400, function() {
+            $res = \Illuminate\Support\Facades\Http::get('https://api.jikan.moe/v4/genres/anime')->json();
+            return collect($res['data'] ?? [])
+                ->filter(fn($g) => !in_array(strtolower($g['name']), ['hentai', 'erotica']))
+                ->sortBy('name')
+                ->values();
+        });
 
         return view('pages.anime.index', [
             'animes' => $animes,
             'pagination' => $response['pagination'] ?? [],
-            'query' => $query
+            'query' => $query,
+            'genres' => $genres,
+            'selectedGenre' => $genre,
+            'selectedType' => $type,
+            'selectedStatus' => $status,
+            'selectedMinScore' => $minScore,
+            'selectedYear' => $year
         ]);
     }
 

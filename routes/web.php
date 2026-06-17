@@ -9,6 +9,9 @@ use App\Http\Controllers\Web\AnimeController;
 use App\Http\Controllers\Web\MangaController;
 use App\Http\Controllers\Web\FeedbackController;
 use App\Http\Controllers\Web\SettingsController;
+use App\Http\Controllers\Web\ForgotPasswordController;
+use App\Http\Controllers\Web\ResetPasswordController;
+use App\Http\Controllers\Web\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +27,12 @@ Route::get('/set-language/{lang}', function ($lang) {
     }
     return back();
 })->name('set-language');
+
+// Password Reset Routes
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Public Landing Page
 Route::get('/', [HomeController::class, 'welcome'])->name('welcome');
@@ -52,10 +61,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/anime-list', [AnimeListController::class, 'store'])->name('anime-list.store');
     Route::put('/anime-list/{id}', [AnimeListController::class, 'update'])->name('anime-list.update');
     Route::delete('/anime-list/{id}', [AnimeListController::class, 'destroy'])->name('anime-list.destroy');
+
+    // Comments
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/news', [App\Http\Controllers\Admin\NewsController::class, 'index'])->name('news.index');
     Route::get('/news/create', [App\Http\Controllers\Admin\NewsController::class, 'create'])->name('news.create');
     Route::post('/news', [App\Http\Controllers\Admin\NewsController::class, 'store'])->name('news.store');

@@ -44,9 +44,15 @@ class AnimeListController extends Controller
         $request->validate([
             'status' => 'required|in:Watching,Completed,On Hold,Dropped,Plan to Watch',
             'progress_episode' => 'nullable|integer|min:0',
+            'score' => 'nullable|integer|min:1|max:10',
         ]);
 
-        $result = $this->animeListService->updateProgress($id, $request->status, $request->progress_episode);
+        $result = $this->animeListService->updateProgress(
+            $id, 
+            $request->status, 
+            $request->progress_episode,
+            $request->score
+        );
 
         return back()->with('success', $result['message']);
     }

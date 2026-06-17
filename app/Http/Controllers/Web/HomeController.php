@@ -16,15 +16,32 @@ class HomeController extends Controller
 
     public function welcome()
     {
-        // Fetch raw data with 25 limit (API Max)
-        $topAiringData = $this->animeRepository->getTop(1, 'airing', 25);
-        $upcomingData = $this->animeRepository->getTopUpcoming(1, 25);
-        $topCharactersData = $this->animeRepository->getTopCharacters(1, 25);
+        // Use Caching for all Jikan API data to improve performance (TTL: 6 hours)
+        $cacheTtl = 21600;
+
+        $topAiringData = \Illuminate\Support\Facades\Cache::remember('home_top_airing', $cacheTtl, function () {
+            return $this->animeRepository->getTop(1, 'airing', 25);
+        });
+
+        $upcomingData = \Illuminate\Support\Facades\Cache::remember('home_upcoming', $cacheTtl, function () {
+            return $this->animeRepository->getTopUpcoming(1, 25);
+        });
+
+        $topCharactersData = \Illuminate\Support\Facades\Cache::remember('home_top_characters', $cacheTtl, function () {
+            return $this->animeRepository->getTopCharacters(1, 25);
+        });
         
-        // Seasonal: Fetch only 1 page to get 12 items (Jikan limit is 25 per page)
-        $seasonalPage1 = \Illuminate\Support\Facades\Http::get('https://api.jikan.moe/v4/seasons/now', ['page' => 1])->json()['data'] ?? [];
+        $seasonalPage1 = \Illuminate\Support\Facades\Cache::remember('home_seasonal_now', $cacheTtl, function () {
+            return \Illuminate\Support\Facades\Http::get('https://api.jikan.moe/v4/seasons/now', ['page' => 1])->json()['data'] ?? [];
+        });
         
-        $latestEpisodes = \Illuminate\Support\Facades\Http::get('https://api.jikan.moe/v4/watch/episodes')->json()['data'] ?? [];
+        $latestEpisodes = \Illuminate\Support\Facades\Cache::remember('home_latest_episodes', $cacheTtl, function () {
+            return \Illuminate\Support\Facades\Http::get('https://api.jikan.moe/v4/watch/episodes')->json()['data'] ?? [];
+        });
+
+        $topMangaPage1 = \Illuminate\Support\Facades\Cache::remember('home_top_manga', $cacheTtl, function () {
+            return $this->mangaRepository->getTop(1);
+        });
 
         // 1. Currently Airing / Seasonal (12 items)
         $seasonalAnime = collect($seasonalPage1)
@@ -66,7 +83,6 @@ class HomeController extends Controller
             ]);
 
         // Other home data: Fetch 1 page for Manga to get 12
-        $topMangaPage1 = $this->mangaRepository->getTop(1);
         $topManga = collect($topMangaPage1['data'] ?? [])
             ->unique('mal_id')
             ->take(12)

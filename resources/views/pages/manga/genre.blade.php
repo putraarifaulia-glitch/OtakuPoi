@@ -5,18 +5,18 @@
 @section('content')
     <main class="container mx-auto px-4 py-12">
         <div class="mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-2">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                 {{ $genreName }} Manga
             </h2>
-            <p class="text-gray-500">Explore the best manga titles under the {{ $genreName }} genre.</p>
+            <p class="text-gray-500 dark:text-gray-400">Explore the best manga titles under the {{ $genreName }} genre.</p>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8 mb-12">
             @forelse($mangas as $manga)
                 <x-anime-card :item="$manga" type="manga" />
             @empty
-                <div class="col-span-full py-20 text-center bg-white rounded-3xl shadow-sm border border-gray-100">
-                    <p class="text-xl font-bold text-gray-800">No manga found for this genre.</p>
+                <div class="col-span-full py-20 text-center bg-white dark:bg-dark-card rounded-3xl shadow-sm border border-gray-100 dark:border-dark-border transition-colors">
+                    <p class="text-xl font-bold text-gray-800 dark:text-gray-200">No manga found for this genre.</p>
                 </div>
             @endforelse
         </div>
@@ -32,19 +32,19 @@
 
                 @if($currentPage > 1)
                     <a href="{{ route('genre.manga.show', ['id' => $genreId, 'page' => $currentPage - 1]) }}" 
-                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-amber-50 hover:text-amber-600 transition-all text-gray-700 shadow-sm font-bold">Prev</a>
+                        class="px-4 py-2 rounded-xl bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 transition-all text-gray-700 dark:text-gray-300 shadow-sm font-bold">Prev</a>
                 @endif
 
                 @for($i = $start; $i <= $end; $i++)
                     <a href="{{ route('genre.manga.show', ['id' => $genreId, 'page' => $i]) }}" 
-                        class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm {{ $i == $currentPage ? 'bg-amber-500 text-white' : 'bg-white border border-gray-200 hover:bg-amber-50 hover:text-amber-600 text-gray-700' }}">
+                        class="w-10 h-10 flex items-center justify-center rounded-xl font-bold transition-all shadow-sm {{ $i == $currentPage ? 'bg-amber-500 text-white shadow-lg shadow-amber-200 dark:shadow-none' : 'bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 text-gray-700 dark:text-gray-300' }}">
                         {{ $i }}
                     </a>
                 @endfor
 
                 @if($currentPage < $lastPage)
                     <a href="{{ route('genre.manga.show', ['id' => $genreId, 'page' => $currentPage + 1]) }}" 
-                        class="px-4 py-2 rounded-xl bg-white border border-gray-200 hover:bg-amber-50 hover:text-amber-600 transition-all text-gray-700 shadow-sm font-bold">Next</a>
+                        class="px-4 py-2 rounded-xl bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600 dark:hover:text-amber-400 transition-all text-gray-700 dark:text-gray-300 shadow-sm font-bold">Next</a>
                 @endif
             </nav>
         @endif

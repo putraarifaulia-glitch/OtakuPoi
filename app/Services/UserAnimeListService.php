@@ -41,12 +41,15 @@ class UserAnimeListService implements UserAnimeListContract
     /**
      * Memperbarui status tontonan atau progress episode.
      */
-    public function updateProgress(int $listId, string $status, ?int $progressEpisode = null): array
+    public function updateProgress(int $listId, string $status, ?int $progressEpisode = null, ?int $score = null): array
     {
         $animeList = AnimeList::findOrFail($listId);
         $animeList->status = $status;
         if ($progressEpisode !== null) {
             $animeList->progress_episode = $progressEpisode;
+        }
+        if ($score !== null) {
+            $animeList->score = $score;
         }
         $animeList->save();
 

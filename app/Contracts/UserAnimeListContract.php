@@ -24,7 +24,7 @@ interface UserAnimeListContract
     /**
      * Memperbarui status tontonan (Watching, Completed, Plan to Watch) atau progress episode.
      */
-    public function updateProgress(int $listId, string $status, ?int $progressEpisode = null): array;
+    public function updateProgress(int $listId, string $status, ?int $progressEpisode = null, ?int $score = null): array;
 
     /**
      * Menghapus anime dari daftar pribadi user.
