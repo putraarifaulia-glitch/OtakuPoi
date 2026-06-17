@@ -2,9 +2,16 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'OtakuPoi - Your Anime & Manga Platform')</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>@yield('title', 'OtakuPoi')</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Improve touch targets and mobile scrolling */
+        button, a { touch-action: manipulation; }
+        body { -webkit-tap-highlight-color: transparent; }
+    </style>
     <script>
         tailwind.config = {
             darkMode: 'class',
