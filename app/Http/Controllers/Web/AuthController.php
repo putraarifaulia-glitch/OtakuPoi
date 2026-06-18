@@ -25,19 +25,21 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $result = $this->authService->login($credentials['email'], $credentials['password']);
+        $remember = $request->has('remember-me');
 
-        if ($result['success']) {
-            // Re-authenticate using Laravel's session-based guard for the web
-            if (Auth::attempt($credentials)) {
-                $request->session()->regenerate();
-                return redirect()->intended('/home');
+        if (Auth::attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+            
+            if (Auth::user()->is_admin) {
+                return redirect()->intended(route('admin.dashboard'));
             }
+            
+            return redirect()->intended('/home');
         }
 
         return back()->withErrors([
-            'email' => $result['message'],
-        ]);
+            'email' => 'Email atau kata sandi yang Anda masukkan salah. Silakan coba lagi.',
+        ])->withInput($request->only('email'));
     }
 
     public function showRegister()
@@ -61,8 +63,8 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => $result['message'],
-        ]);
+            'email' => 'Pendaftaran gagal: ' . $result['message'],
+        ])->withInput($request->only('name', 'email'));
     }
 
     public function logout(Request $request)

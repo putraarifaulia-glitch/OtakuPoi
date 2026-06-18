@@ -19,13 +19,14 @@
 
                 <div class="hidden lg:flex items-center space-x-4">
                     @auth
-                        <a href="{{ url('/home') }}" class="px-5 py-2 rounded-full bg-indigo-600 text-white font-bold text-sm hover:bg-purple-800 transition-all">Dashboard</a>
+                        <a href="{{ url('/home') }}" class="px-5 py-2 rounded-full bg-indigo-600 text-white font-bold text-sm hover:bg-purple-800 transition-all shadow-md hover:shadow-lg">Dashboard</a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <button type="submit" class="px-5 py-2 rounded-full bg-white dark:bg-transparent border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold text-sm">Logout</button>
+                            <button type="submit" class="px-5 py-2 rounded-full bg-white dark:bg-transparent border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">Logout</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="px-5 py-2 rounded-full bg-indigo-600 text-white font-bold text-sm">Login</a>
+                        <a href="{{ route('login') }}" class="px-5 py-2 rounded-full border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-bold text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all">Login</a>
+                        <a href="{{ route('register') }}" class="px-5 py-2 rounded-full bg-indigo-600 text-white font-bold text-sm hover:bg-purple-800 transition-all shadow-md hover:shadow-lg">Register</a>
                     @endauth
                 </div>
             </div>
@@ -36,21 +37,36 @@
     <nav id="main-nav" class="bg-indigo-600 dark:bg-indigo-900 w-full transition-all duration-300 shadow-lg">
         <div class="container mx-auto px-4">
             <ul :class="mobileMenuOpen ? 'flex flex-col py-4' : 'hidden lg:flex'" class="lg:flex flex-col lg:flex-row items-center justify-center lg:justify-start space-y-4 lg:space-y-0 lg:space-x-6 py-2">
-                <li><a href="{{ url('/') }}" class="text-white hover:text-purple-200 font-medium text-sm">Home</a></li>
-                <li><a href="{{ url('/anime') }}" class="text-white hover:text-purple-200 font-medium text-sm">{{ __('messages.anime') }}</a></li>
-                <li><a href="{{ url('/manga') }}" class="text-white hover:text-purple-200 font-medium text-sm">{{ __('messages.manga') }}</a></li>
-                <li><a href="{{ route('news.index') }}" class="text-white hover:text-purple-200 font-medium text-sm">News</a></li>
-                <li><a href="{{ route('genre.index') }}" class="text-white hover:text-purple-200 font-medium text-sm">{{ __('messages.genre') }}</a></li>
-                <li><a href="{{ route('studio.index') }}" class="text-white hover:text-purple-200 font-medium text-sm">{{ __('messages.studio') }}</a></li>
-                <li><a href="{{ url('/feedback') }}" class="text-white hover:text-purple-200 font-medium text-sm">{{ __('messages.feedback') }}</a></li>
+                <li><a href="{{ url('/') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">Home</a></li>
+                <li><a href="{{ url('/anime') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">{{ __('messages.anime') }}</a></li>
+                <li><a href="{{ url('/manga') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">{{ __('messages.manga') }}</a></li>
+                <li><a href="{{ route('news.index') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">News</a></li>
+                <li><a href="{{ route('genre.index') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">{{ __('messages.genre') }}</a></li>
+                <li><a href="{{ route('studio.index') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">{{ __('messages.studio') }}</a></li>
+                <li><a href="{{ url('/feedback') }}" class="text-white hover:text-purple-200 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-indigo-500/50 transition-all">{{ __('messages.feedback') }}</a></li>
                 
                 @auth
                     @if(auth()->user()->is_admin)
-                        <li class="lg:ml-auto"><a href="{{ route('admin.dashboard') }}" class="text-white font-bold text-sm">Dashboard</a></li>
-                        <li><a href="{{ route('admin.users.index') }}" class="text-white font-bold text-sm">Users</a></li>
+                        <li class="lg:ml-auto"><a href="{{ route('admin.dashboard') }}" class="bg-indigo-500/30 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-full border border-indigo-400/50 hover:bg-indigo-400/50 transition-all">Admin Panel</a></li>
+                        <li><a href="{{ route('admin.news.create') }}" class="bg-green-500/30 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-full border border-green-400/50 hover:bg-green-400/50 transition-all">+ News</a></li>
+                        <li><a href="{{ route('admin.users.index') }}" class="bg-purple-500/30 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-full border border-purple-400/50 hover:bg-purple-400/50 transition-all">Users</a></li>
                     @else
-                        <li class="lg:ml-auto"><a href="{{ route('anime-list.index') }}" class="text-white font-bold text-sm">My List</a></li>
+                        <li class="lg:ml-auto"><a href="{{ route('anime-list.index') }}" class="bg-pink-500/30 text-white font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-full border border-pink-400/50 hover:bg-pink-400/50 transition-all">My List</a></li>
                     @endif
+
+                    <!-- Mobile Auth Links -->
+                    <li class="lg:hidden pt-4 mt-4 border-t border-indigo-500/50 flex flex-col space-y-3">
+                        <a href="{{ url('/home') }}" class="text-center px-5 py-2 rounded-full bg-indigo-500 text-white font-bold text-sm">Dashboard</a>
+                        <form method="POST" action="{{ route('logout') }}" class="w-full">
+                            @csrf
+                            <button type="submit" class="w-full px-5 py-2 rounded-full bg-transparent border-2 border-white text-white font-bold text-sm">Logout</button>
+                        </form>
+                    </li>
+                @else
+                    <li class="lg:hidden pt-4 mt-4 border-t border-indigo-500/50 flex flex-col space-y-3">
+                        <a href="{{ route('login') }}" class="text-center px-5 py-2 rounded-full border-2 border-white text-white font-bold text-sm">Login</a>
+                        <a href="{{ route('register') }}" class="text-center px-5 py-2 rounded-full bg-white text-indigo-600 font-bold text-sm">Register</a>
+                    </li>
                 @endauth
             </ul>
         </div>
