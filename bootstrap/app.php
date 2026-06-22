@@ -13,7 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
-        $middleware->trustProxies(headers: Request::HEADER_X_FORWARDED_AWS_ELB);
         $middleware->web(append: [
             \Illuminate\Session\Middleware\StartSession::class,
             \App\Http\Middleware\SetLanguage::class,
