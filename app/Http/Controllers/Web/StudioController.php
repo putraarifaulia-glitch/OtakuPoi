@@ -28,9 +28,9 @@ public function index(Request $request)
         
         // Fetch anime for studio sorted by start_date descending (newest first)
         $animeResponse = $this->jikanService->fetch("anime", [
-            'producers' => $id, 
+            'producers' => $id, 'limit' => 25, 
             'page' => $page, 
-            'limit' => 18,
+            'limit' => 25,
             'order_by' => 'start_date',
             'sort' => 'desc'
         ]);
@@ -40,7 +40,7 @@ public function index(Request $request)
         $studioName = $studioResponse['data']['titles'][0]['title'] ?? 'Studio';
         
         return view('pages.studio.show', [
-            'animes' => collect($animeResponse['data'] ?? [])->take(18)->values(),
+            'animes' => collect($animeResponse['data'] ?? [])->take(25)->values(),
             'pagination' => $animeResponse['pagination'] ?? [],
             'studioId' => $id,
             'studioName' => $studioName

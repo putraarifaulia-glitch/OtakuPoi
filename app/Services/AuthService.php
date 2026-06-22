@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Contracts\AuthContract;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService implements AuthContract
@@ -17,7 +16,7 @@ class AuthService implements AuthContract
         $user = User::create([
             'name' => $username,
             'email' => $email,
-            'password' => Hash::make($password),
+            'password' => $password,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
