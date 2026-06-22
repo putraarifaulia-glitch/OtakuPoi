@@ -33,7 +33,7 @@ class NewsController extends Controller
         $data['author_id'] = auth()->id();
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('news', 'public');
+            $data['image_path'] = $request->file('image')->store('news', 's3');
         }
 
         News::create($data);
@@ -58,7 +58,7 @@ class NewsController extends Controller
         $data['slug'] = Str::slug($request->title);
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('news', 'public');
+            $data['image_path'] = $request->file('image')->store('news', 's3');
         }
 
         $news->update($data);
