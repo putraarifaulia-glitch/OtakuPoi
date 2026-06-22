@@ -81,7 +81,7 @@
                     @if($selectedGenre || $selectedType || $selectedStatus || $selectedMinScore || $selectedYear || $query)
                         <div class="flex justify-end">
                             <a href="{{ url('/anime') }}" class="text-sm font-bold text-red-500 hover:text-red-600 transition-colors flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="https://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                                 Clear All Filters
@@ -99,7 +99,7 @@
             @empty
                 <div class="col-span-full py-20 text-center">
                     <div class="w-20 h-20 bg-gray-100 dark:bg-dark-card rounded-3xl flex items-center justify-center mx-auto mb-6 border dark:border-dark-border">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="https://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>

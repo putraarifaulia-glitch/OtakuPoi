@@ -35,7 +35,7 @@
                         <button @click="open = !open" 
                                 type="button"
                                 class="w-full py-4 rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg transition-all transform hover:scale-105 {{ $userListEntry ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-indigo-600 hover:bg-purple-800 text-white' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="https://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                             </svg>
                             <span>{{ $userListEntry ? $userListEntry->status : 'Tambah ke List' }}</span>

@@ -64,7 +64,7 @@
             x-transition:enter-end="translate-y-0 opacity-100"
             x-transition:leave="translate-y-2 opacity-0">
             <div class="{{ session('success') ? 'bg-emerald-600' : 'bg-red-600' }} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border-4 border-white dark:border-dark-card">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="https://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     @if(session('success'))
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     @else
