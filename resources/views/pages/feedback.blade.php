@@ -46,7 +46,7 @@
 
                 <!-- Form -->
                 <div class="p-12">
-                    <form action="{{ url('/feedback') }}" method="POST" class="space-y-6">
+                    <form action="{{ url('/feedback/') }}" method="POST" class="space-y-6">
                         @csrf
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Full Name</label>

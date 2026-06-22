@@ -54,11 +54,11 @@ Route::middleware(['auth'])->group(function () {
     
     // Feedback
     Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
-    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::post('/feedback/', [FeedbackController::class, 'store'])->name('feedback.store');
 
     // Anime List
     Route::get('/my-list', [AnimeListController::class, 'index'])->name('anime-list.index');
-    Route::post('/anime-list', [AnimeListController::class, 'store'])->name('anime-list.store');
+    Route::post('/anime-list/', [AnimeListController::class, 'store'])->name('anime-list.store');
     Route::put('/anime-list/{id}', [AnimeListController::class, 'update'])->name('anime-list.update');
     Route::delete('/anime-list/{id}', [AnimeListController::class, 'destroy'])->name('anime-list.destroy');
 
