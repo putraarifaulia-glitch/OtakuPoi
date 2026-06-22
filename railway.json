@@ -1,8 +1,5 @@
 {
   "build": {
     "builder": "NIXPACKS"
-  },
-  "deploy": {
-    "startCommand": "php artisan migrate --force && php-fpm -D && nginx -g 'daemon off;'"
   }
 }
